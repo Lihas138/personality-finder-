@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Personality Finder</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+margin:0;
+min-height:100%;
+}
+
+body{
+min-height:100vh;
+padding:18px;
+font-family:Arial,sans-serif;
+color:white;
+background:
+radial-gradient(circle at 15% 15%,#ff5fb755 0,transparent 28%),
+radial-gradient(circle at 85% 20%,#9b6cff66 0,transparent 30%),
+linear-gradient(135deg,#180b35,#32115c,#090712);
+display:flex;
+align-items:center;
+justify-content:center;
+overflow-x:hidden;
+position:relative;
+}
+
+/* Floating particles */
+
+.particles{
+position:fixed;
+inset:0;
+overflow:hidden;
+pointer-events:none;
+z-index:0;
+}
+
+.particle{
+position:absolute;
+font-size:18px;
+opacity:.55;
+animation:floatParticle linear infinite;
+filter:drop-shadow(0 0 8px #ff73c9);
+}
+
+.particle:nth-child(1){left:8%;animation-duration:9s;animation-delay:0s}
+.particle:nth-child(2){left:25%;animation-duration:12s;animation-delay:2s}
+.particle:nth-child(3){left:43%;animation-duration:10s;animation-delay:1s}
+.particle:nth-child(4){left:63%;animation-duration:14s;animation-delay:3s}
+.particle:nth-child(5){left:82%;animation-duration:11s;animation-delay:1s}
+.particle:nth-child(6){left:92%;animation-duration:13s;animation-delay:4s}
+.particle:nth-child(7){left:16%;animation-duration:15s;animation-delay:5s}
+
+@keyframes floatParticle{
+0%{
+transform:translateY(110vh) translateX(0) rotate(0deg);
+opacity:0;
+}
+15%{opacity:.6}
+85%{opacity:.6}
+100%{
+transform:translateY(-15vh) translateX(50px) rotate(180deg);
+opacity:0;
+}
+}
+
+.card{
+position:relative;
+z-index:2;
+width:100%;
+max-width:520px;
+padding:28px;
+border:1px solid #ffffff25;
+border-radius:30px;
+background:linear-gradient(145deg,#ffffff12,#ffffff06);
+backdrop-filter:blur(22px);
+-webkit-backdrop-filter:blur(22px);
+box-shadow:
+0 25px 80px #0009,
+inset 0 1px #ffffff18;
+overflow:hidden;
+}
+
+.logo{
+width:70px;
+height:70px;
+margin:auto auto 15px;
+border-radius:23px;
+display:grid;
+place-items:center;
+font-size:34px;
+background:linear-gradient(135deg,#9b6cff,#ff5fb7);
+box-shadow:0 0 35px #ff5fb755;
+animation:heartPulse 1.8s ease-in-out infinite;
+}
+
+h1{
+text-align:center;
+font-size:29px;
+margin:5px;
+}
+
+.sub{
+text-align:center;
+color:#aaa6c2;
+font-size:14px;
+line-height:1.5;
+}
+
+.bar{
+height:8px;
+background:#ffffff12;
+border-radius:20px;
+margin:25px 0;
+overflow:hidden;
+}
+
+.fill{
+height:100%;
+width:0;
+background:linear-gradient(90deg,#9b6cff,#ff5fb7);
+border-radius:20px;
+box-shadow:0 0 15px #ff5fb788;
+transition:width .5s ease;
+}
+
+.q{
+color:#d0baff;
+font-size:12px;
+margin-bottom:10px;
+}
+
+.question{
+font-size:21px;
+font-weight:bold;
+margin-bottom:18px;
+line-height:1.35;
+}
+
+#options{
+animation:questionIn .35s ease;
+}
+
+@keyframes questionIn{
+from{
+opacity:0;
+transform:translateX(25px);
+}
+to{
+opacity:1;
+transform:translateX(0);
+}
+}
+
+button{
+width:100%;
+padding:16px;
+margin:6px 0;
+border-radius:17px;
+border:1px solid #ffffff18;
+background:#ffffff09;
+color:white;
+font-size:15px;
+text-align:left;
+cursor:pointer;
+transition:
+transform .18s ease,
+background .18s ease,
+box-shadow .18s ease,
+border-color .18s ease;
+-webkit-tap-highlight-color:transparent;
+}
+
+button:hover{
+background:#9b6cff28;
+border-color:#ff7cc455;
+transform:translateY(-2px);
+box-shadow:0 8px 25px #0004;
+}
+
+button:active{
+transform:scale(.97);
+}
+
+.main{
+background:linear-gradient(100deg,#9b6cff,#ff5fb7);
+border:0;
+text-align:center;
+font-weight:bold;
+box-shadow:0 10px 30px #ff5fb733;
+}
+
+.main:hover{
+background:linear-gradient(100deg,#a77cff,#ff6cbd);
+box-shadow:0 12px 35px #ff5fb755;
+}
+
+input{
+width:100%;
+padding:16px;
+border-radius:15px;
+border:1px solid #ffffff22;
+background:#ffffff0b;
+color:white;
+font-size:16px;
+margin:6px 0;
+outline:none;
+}
+
+input:focus{
+border-color:#ff6fc0;
+box-shadow:0 0 18px #ff5fb733;
+}
+
+input::placeholder{
+color:#777286;
+}
+
+.center{
+text-align:center;
+}
+
+.hidden{
+display:none;
+}
+
+.spinner{
+width:55px;
+height:55px;
+margin:30px auto;
+border:5px solid #ffffff15;
+border-top-color:#ff5fb7;
+border-right-color:#9b6cff;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+to{transform:rotate(360deg)}
+}
+
+.nameTitle{
+color:#c8aaff;
+font-size:13px;
+margin-top:17px;
+margin-bottom:3px;
+}
+
+.nameStepTitle{
+font-size:25px;
+}
+
+.resultBox{
+background:linear-gradient(145deg,#ffffff12,#ffffff06);
+border:1px solid #ffffff18;
+border-radius:20px;
+padding:17px;
+margin:13px 0;
+text-align:left;
+box-shadow:0 10px 30px #0003;
+animation:resultCardIn .6s ease both;
+}
+
+.resultCategory{
+color:#ff9bd1;
+font-size:13px;
+font-weight:bold;
+margin-bottom:9px;
+}
+
+.person{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+padding:10px 0;
+border-bottom:1px solid #ffffff0d;
+}
+
+.person:last-child{
+border-bottom:0;
+}
+
+.personName{
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+.percent{
+font-weight:bold;
+font-size:20px;
+color:#ff82c5;
+text-shadow:0 0 15px #ff5fb788;
+animation:percentPop .8s ease both;
+}
+
+.personalityCard{
+padding:22px;
+margin:15px 0 20px;
+border-radius:24px;
+background:
+linear-gradient(135deg,#9b6cff30,#ff5fb730);
+border:1px solid #ffffff25;
+box-shadow:
+0 15px 45px #0004,
+0 0 35px #ff5fb722;
+animation:resultCardIn .7s ease;
+}
+
+.personalityIcon{
+font-size:55px;
+animation:heartPulse 1.7s ease-in-out infinite;
+}
+
+.personalityType{
+font-size:25px;
+font-weight:bold;
+margin:8px 0;
+}
+
+.finalReveal{
+animation:finalReveal .9s ease both;
+}
+
+.confetti{
+position:fixed;
+top:-20px;
+font-size:20px;
+pointer-events:none;
+z-index:99;
+animation:confettiFall 2.8s linear forwards;
+}
+
+@keyframes spin{
+to{transform:rotate(360deg)}
+}
+
+@keyframes heartPulse{
+0%,100%{transform:scale(1)}
+50%{transform:scale(1.12)}
+}
+
+@keyframes resultCardIn{
+from{
+opacity:0;
+transform:translateY(25px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes percentPop{
+0%{
+transform:scale(.5);
+opacity:0;
+}
+70%{
+transform:scale(1.2);
+}
+100%{
+transform:scale(1);
+opacity:1;
+}
+}
+
+@keyframes finalReveal{
+0%{
+opacity:0;
+transform:scale(.88);
+}
+60%{
+transform:scale(1.03);
+}
+100%{
+opacity:1;
+transform:scale(1);
+}
+}
+
+@keyframes confettiFall{
+0%{
+transform:translateY(0) rotate(0deg);
+opacity:1;
+}
+100%{
+transform:translateY(110vh) translateX(var(--drift)) rotate(720deg);
+opacity:0;
+}
+}
+
+@media(max-width:600px){
+
+body{
+padding:10px;
+align-items:flex-start;
+padding-top:15px;
+}
+
+.card{
+padding:22px 18px;
+border-radius:25px;
+}
+
+h1{
+font-size:26px;
+}
+
+.question{
+font-size:19px;
+}
+
+button{
+padding:15px;
+}
+
+.logo{
+width:65px;
+height:65px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="particles">
+<div class="particle">♥</div>
+<div class="particle">✦</div>
+<div class="particle">♡</div>
+<div class="particle">♥</div>
+<div class="particle">✧</div>
+<div class="particle">♡</div>
+<div class="particle">♥</div>
+</div>
+
+<div class="card">
+
+<!-- QUIZ -->
+
+<div id="quiz">
+
+<div class="logo">💗</div>
+
+<h1>Personality Finder</h1>
+
+<p class="sub">
+Discover your personality through a few quick questions.
+</p>
+
+<div class="bar">
+<div class="fill" id="fill"></div>
+</div>
+
+<div class="q" id="qnum"></div>
+
+<div class="question" id="question"></div>
+
+<div id="options"></div>
+
+</div>
+
+
+<!-- NAME SECTION -->
+
+<div id="nameStep" class="hidden">
+
+<div class="center">
+
+<div style="font-size:65px;animation:heartPulse 1.5s infinite">💗</div>
+
+<h2 class="nameStepTitle">Compatibility Check</h2>
+
+<p class="sub">
+Enter the names of your friends, best friends, crushes and lovers.
+</p>
+
+</div>
+
+
+<div class="nameTitle">👥 Friend 1</div>
+<input id="friend1" placeholder="Friend name">
+
+<div class="nameTitle">👥 Friend 2</div>
+<input id="friend2" placeholder="Friend name">
+
+<div class="nameTitle">👥 Friend 3</div>
+<input id="friend3" placeholder="Friend name">
+
+
+<div class="nameTitle">💖 Best Friend 1</div>
+<input id="bestfriend1" placeholder="Best friend name">
+
+<div class="nameTitle">💖 Best Friend 2</div>
+<input id="bestfriend2" placeholder="Best friend name">
+
+<div class="nameTitle">💖 Best Friend 3</div>
+<input id="bestfriend3" placeholder="Best friend name">
+
+
+<div class="nameTitle">😍 Crush 1</div>
+<input id="crush1" placeholder="Crush name">
+
+<div class="nameTitle">😍 Crush 2</div>
+<input id="crush2" placeholder="Crush name">
+
+<div class="nameTitle">😍 Crush 3</div>
+<input id="crush3" placeholder="Crush name">
+
+
+<div class="nameTitle">❤️ Lover 1</div>
+<input id="lover1" placeholder="Lover name">
+
+<div class="nameTitle">❤️ Lover 2</div>
+<input id="lover2" placeholder="Lover name">
+
+<div class="nameTitle">❤️ Lover 3</div>
+<input id="lover3" placeholder="Lover name">
+
+
+<button class="main" onclick="finish()">
+✨ Reveal My Personality & Compatibility
+</button>
+
+<p style="font-size:11px;color:#777;text-align:center">
+Your quiz responses are sent to the quiz owner by email.
+</p>
+
+</div>
+
+
+<!-- LOADING -->
+
+<div id="loading" class="hidden center">
+
+<div class="spinner"></div>
+
+<h2>Analyzing your personality...</h2>
+
+<p class="sub" id="loadingText">
+Reading your answers...
+</p>
+
+</div>
+
+
+<!-- RESULT -->
+
+<div id="result" class="hidden center finalReveal">
+
+<div style="font-size:70px">
+💗
+</div>
+
+<h2>✨ Your Results ✨</h2>
+
+<div class="personalityCard">
+
+<div class="personalityIcon" id="personalityIcon">
+💖
+</div>
+
+<div class="personalityType" id="resultTitle"></div>
+
+<p class="sub" id="resultText"></p>
+
+</div>
+
+<div id="compatibilityResults"></div>
+
+<button class="main" onclick="location.reload()">
+Take Quiz Again
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+const questions=[
+
+[
+"What do you notice first about someone?",
+["Their smile","Their eyes","Their personality","Their style"]
+],
+
+[
+"What personality attracts you most?",
+["Funny","Confident","Kind","Mysterious"]
+],
+
+[
+"Pick your ideal first hangout.",
+["Cafe","Movie","Long walk","Adventure"]
+],
+
+[
+"What makes a message exciting?",
+["A funny meme","A good morning text","A long conversation","A surprise message"]
+],
+
+[
+"Which matters more?",
+["Looks","Personality","Both equally","The connection"]
+],
+
+[
+"If you like someone, what do you do?",
+["Tell them","Drop hints","Wait for them","Act completely normal 😭"]
+],
+
+[
+"Pick a romantic vibe.",
+["Cute","Funny","Deep","Chaotic"]
+],
+
+[
+"What would make you smile instantly?",
+["A compliment","Their message","Seeing them unexpectedly","A thoughtful gesture"]
+],
+
+[
+"Your friends would describe you as...",
+["Chill","Funny","Quiet","Overthinking everything"]
+],
+
+[
+"When you have free time, what do you prefer?",
+["Going out","Talking to friends","Being alone","Trying something new"]
+]
+
+];
+
+
+let n=0;
+let answers=[];
+
+
+function show(){
+
+document.getElementById("qnum").innerText=
+"Question "+(n+1)+" of "+questions.length;
+
+document.getElementById("question").innerText=
+questions[n][0];
+
+document.getElementById("fill").style.width=
+((n)/questions.length*100)+"%";
+
+let box=document.getElementById("options");
+
+box.innerHTML="";
+
+questions[n][1].forEach((x)=>{
+
+let b=document.createElement("button");
+
+b.innerText=x;
+
+b.onclick=()=>{
+
+answers.push(x);
+
+n++;
+
+if(n<questions.length){
+
+show();
+
+}else{
+
+document.getElementById("fill").style.width="100%";
+
+document.getElementById("quiz").classList.add("hidden");
+
+document.getElementById("nameStep").classList.remove("hidden");
+
+}
+
+};
+
+box.appendChild(b);
+
+});
+
+}
+
+
+/* PERSONALITY */
+
+function getPersonality(){
+
+let romantic=0;
+let loving=0;
+let playful=0;
+let confident=0;
+let mysterious=0;
+let caring=0;
+let emotional=0;
+let adventurous=0;
+
+
+answers.forEach(a=>{
+
+if(
+a==="Cute" ||
+a==="A good morning text" ||
+a==="The connection" ||
+a==="Drop hints" ||
+a==="Their smile"
+){
+romantic++;
+}
+
+if(
+a==="Kind" ||
+a==="A thoughtful gesture" ||
+a==="Personality" ||
+a==="Talking to friends"
+){
+loving++;
+caring++;
+}
+
+if(
+a==="Funny" ||
+a==="A funny meme" ||
+a==="Chaotic" ||
+a==="Funny"
+){
+playful++;
+}
+
+if(
+a==="Confident" ||
+a==="Tell them" ||
+a==="Looks" ||
+a==="Going out"
+){
+confident++;
+}
+
+if(
+a==="Mysterious" ||
+a==="Quiet" ||
+a==="Deep" ||
+a==="Being alone"
+){
+mysterious++;
+}
+
+if(
+a==="The connection" ||
+a==="Kind" ||
+a==="A thoughtful gesture" ||
+a==="Personality"
+){
+caring++;
+}
+
+if(
+a==="Overthinking everything 😭" ||
+a==="Their message" ||
+a==="Long conversation" ||
+a==="Deep"
+){
+emotional++;
+}
+
+if(
+a==="Adventure" ||
+a==="Trying something new"
+){
+adventurous++;
+}
+
+});
+
+
+let types=[
+
+{
+score:romantic,
+name:"Romantic & Loving 💗",
+icon:"💗",
+text:"You feel deeply and love making meaningful connections."
+},
+
+{
+score:loving,
+name:"Sweet & Caring 🥰",
+icon:"🥰",
+text:"You naturally care about people and make them feel special."
+},
+
+{
+score:playful,
+name:"Fun & Playful 😎",
+icon:"😎",
+text:"You bring laughter, energy and a little chaos wherever you go."
+},
+
+{
+score:confident,
+name:"Confident & Bold 🔥",
+icon:"🔥",
+text:"You know what you want and aren't afraid to show it."
+},
+
+{
+score:mysterious,
+name:"Mysterious & Deep 👀",
+icon:"👀",
+text:"There is more going on inside you than most people realize."
+},
+
+{
+score:caring,
+name:"Loyal & Protective 🫶",
+icon:"🫶",
+text:"When you care about someone, you genuinely stand by them."
+},
+
+{
+score:emotional,
+name:"Soft & Emotional 🌸",
+icon:"🌸",
+text:"You notice little things and experience feelings strongly."
+},
+
+{
+score:adventurous,
+name:"Adventurous & Free ✨",
+icon:"✨",
+text:"You love new experiences and don't want life to feel boring."
+}
+
+];
+
+
+types.sort((a,b)=>b.score-a.score);
+
+return types[0];
+
+}
+
+
+/* COMPATIBILITY */
+
+function getCompatibility(name){
+
+if(!name)return null;
+
+let clean=name
+.trim()
+.toLowerCase()
+.replace(/\s+/g," ");
+
+
+/*
+Sahil / Sahil Rai:
+Always above 90%.
+Different result each time.
+*/
+
+if(
+clean==="sahil" ||
+clean==="sahil rai"
+){
+
+return Math.floor(Math.random()*9)+91;
+
+}
+
+
+/*
+Normal compatibility.
+*/
+
+return Math.floor(Math.random()*31)+65;
+
+}
+
+
+/* RESULTS */
+
+function addResults(category,names){
+
+let valid=names.filter(x=>x.name.trim());
+
+if(valid.length===0)return "";
+
+let html=`
+
+<div class="resultBox">
+
+<div class="resultCategory">
+${category}
+</div>
+
+`;
+
+valid.forEach(person=>{
+
+let score=getCompatibility(person.name);
+
+html+=`
+
+<div class="person">
+
+<span class="personName">
+${escapeHTML(person.name)}
+</span>
+
+<span class="percent">
+${score}%
+</span>
+
+</div>
+
+`;
+
+});
+
+html+="</div>";
+
+return html;
+
+}
+
+
+/* BASIC HTML ESCAPE */
+
+function escapeHTML(str){
+
+return str
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* CONFETTI */
+
+function celebration(){
+
+const symbols=["💗","💖","💕","✨","🌸","💜","♥","✦"];
+
+for(let i=0;i<45;i++){
+
+let item=document.createElement("div");
+
+item.className="confetti";
+
+item.innerText=
+symbols[Math.floor(Math.random()*symbols.length)];
+
+item.style.left=
+Math.random()*100+"vw";
+
+item.style.setProperty(
+"--drift",
+(Math.random()*200-100)+"px"
+);
+
+item.style.animationDelay=
+Math.random()*1.2+"s";
+
+item.style.fontSize=
+(14+Math.random()*18)+"px";
+
+document.body.appendChild(item);
+
+setTimeout(()=>{
+item.remove();
+},4000);
+
+}
+
+}
+
+
+/* FINISH */
+
+async function finish(){
+
+let people={
+
+friends:[
+{name:document.getElementById("friend1").value},
+{name:document.getElementById("friend2").value},
+{name:document.getElementById("friend3").value}
+],
+
+bestfriends:[
+{name:document.getElementById("bestfriend1").value},
+{name:document.getElementById("bestfriend2").value},
+{name:document.getElementById("bestfriend3").value}
+],
+
+crushes:[
+{name:document.getElementById("crush1").value},
+{name:document.getElementById("crush2").value},
+{name:document.getElementById("crush3").value}
+],
+
+lovers:[
+{name:document.getElementById("lover1").value},
+{name:document.getElementById("lover2").value},
+{name:document.getElementById("lover3").value}
+]
+
+};
+
+
+document.getElementById("nameStep")
+.classList.add("hidden");
+
+document.getElementById("loading")
+.classList.remove("hidden");
+
+
+/* EMAIL */
+
+let allNames=[];
+
+Object.keys(people).forEach(category=>{
+
+people[category].forEach(person=>{
+
+if(person.name.trim()){
+
+allNames.push(
+category+": "+person.name.trim()
+);
+
+}
+
+});
+
+});
+
+
+try{
+
+await fetch(
+"https://formsubmit.co/ajax/rai775087@gmail.com",
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json",
+"Accept":"application/json"
+},
+
+body:JSON.stringify({
+
+quiz:"Personality Finder",
+
+personality_answers:
+answers.join(" | "),
+
+names:
+allNames.join(" | ")
+
+})
+
+});
+
+}catch(e){}
+
+
+/* RESULT */
+
+setTimeout(()=>{
+
+document.getElementById("loading")
+.classList.add("hidden");
+
+document.getElementById("result")
+.classList.remove("hidden");
+
+
+let personality=getPersonality();
+
+
+document.getElementById("personalityIcon")
+.innerText=personality.icon;
+
+document.getElementById("resultTitle")
+.innerText=personality.name;
+
+document.getElementById("resultText")
+.innerText=personality.text;
+
+
+let results="";
+
+
+results+=addResults(
+"👥 Friends",
+people.friends
+);
+
+results+=addResults(
+"💖 Best Friends",
+people.bestfriends
+);
+
+results+=addResults(
+"😍 Crushes",
+people.crushes
+);
+
+results+=addResults(
+"❤️ Lovers",
+people.lovers
+);
+
+
+document.getElementById(
+"compatibilityResults"
+).innerHTML=results;
+
+
+celebration();
+
+},3000);
+
+}
+
+
+show();
+
+</script>
+
+</body>
+</html>
